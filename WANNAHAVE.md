@@ -584,7 +584,7 @@ Vorhandene Notion-Struktur: `01.Eintragstyp` (Einzelbedarf/Verbund), `01.Teil vo
 
 ## A · SQLite-Backend: vollständiger ausführbarer Speicherinstaller
 
-Aktiviere **nur** bei `backend=sqlite`. Das ist ein vollständig ausführbares Storage-Bootstrap, **nicht** ein vorgetäuschter Händlercrawler. Benötigt Python 3.9+ mit Standardbibliothek und einen schreibbaren Zielordner. Installiert exakt die fünf Original-Datenmodelle als SQLite-Tabellen, drei Bridge-Relationstabellen und zwölf abfragbare Views, inklusive Select-Checks, stabilen Eindeutigkeitsindizes, Fremdschlüsseln und Read-back-Verifikation. Die Namen und Typen werden aus dem obigen YAML-Block geparst; kein externes YAML-Paket, keine separaten Repository-Dateien, keine Datenübernahme.
+Aktiviere **nur** bei `backend=sqlite`. Das ist ein vollständig ausführbares Storage-Bootstrap, **nicht** ein vorgetäuschter Händlercrawler. Benötigt Python 3.9+ mit Standardbibliothek und einen schreibbaren Zielordner. Installiert exakt die fünf Original-Datenmodelle als SQLite-Tabellen, drei Bridge-Relationstabellen und zwölf abfragbare Views, inklusive Select-Checks, stabilen Eindeutigkeitsindizes, Fremdschlüsseln und Read-back-Verifikation. Die Namen und Typen werden aus dem obigen YAML-Block geparst; kein externes YAML-Paket, keine separaten Repository-Dateien, keine Datenübernahme. Bestehende gleichnamige Tabellen, Views und Indizes werden zusätzlich gegen exakte SQL-Definitionen geprüft: Drift blockiert die Installation statt ein falsches NO_CHANGE zu liefern.
 
 **Konkreter Ablauf:**
 
@@ -733,6 +733,15 @@ def build(schema):
     return ddl, expected, views
 
 
+def inspect_managed_objects(connection):
+    """Read user-defined schema objects, excluding SQLite internals."""
+    rows = connection.execute(
+        "SELECT type, name, sql FROM sqlite_master "
+        "WHERE type IN ('table','index','view') AND name NOT LIKE 'sqlite_%'"
+    ).fetchall()
+    return {(kind, name): sql for kind, name, sql in rows}
+
+
 def main():
     if len(sys.argv) != 3:
         raise RuntimeError("Usage: python3 install.py WANNAHAVE.md /path/wannahave.sqlite")
@@ -743,24 +752,38 @@ def main():
     if db.exists() and not db.is_file():
         raise RuntimeError("Database path exists but is not a regular file")
     db.parent.mkdir(parents=True, exist_ok=True)
+
+    # Build the exact expected SQL schema in memory. Never "verify" on object names alone.
+    with sqlite3.connect(":memory:") as reference:
+        reference.execute("PRAGMA foreign_keys=ON")
+        for statement in ddl:
+            reference.execute(statement)
+        expected_objects = inspect_managed_objects(reference)
+    assert len(expected) == 8 and len(views) == 12
+
     con = sqlite3.connect(str(db))
     try:
         con.execute("PRAGMA foreign_keys=ON")
-        before = {row[0] for row in con.execute("SELECT name FROM sqlite_master WHERE type IN ('table','view','index')")}
-        for table, cols in expected.items():
-            if table in before:
-                found = [(r[1], r[2].upper()) for r in con.execute("PRAGMA table_info(" + quote(table) + ")")]
-                if found != cols:
-                    raise RuntimeError("BLOCKED_CONFLICT: existing table differs: " + table)
+        before = inspect_managed_objects(con)
+        drift = [(kind, name) for (kind, name), sql in expected_objects.items()
+                 if (kind, name) in before and before[(kind, name)] != sql]
+        if drift:
+            raise RuntimeError("BLOCKED_CONFLICT: existing schema differs: " + repr(drift))
         con.execute("BEGIN IMMEDIATE")
         for statement in ddl:
             con.execute(statement)
         con.commit()
-        after = {row[0] for row in con.execute("SELECT name FROM sqlite_master WHERE type IN ('table','view','index')")}
-        missing = (set(expected) | set(views)) - after
-        if missing:
-            raise RuntimeError("Verification failed, missing objects: " + repr(sorted(missing)))
-        print(json.dumps({"status": "NO_CHANGE" if set(expected).issubset(before) and set(views).issubset(before) else "INSTALLED_STORAGE", "database": str(db), "tables": len(expected), "views": len(views), "schema_fields": sum(len(x) for x in schema.values()), "relations": 3, "verified": True}, ensure_ascii=False))
+        after = inspect_managed_objects(con)
+        missing = sorted(set(expected_objects) - set(after))
+        unexpected_drift = sorted(k for k, sql in expected_objects.items() if after.get(k) != sql)
+        fk_errors = con.execute("PRAGMA foreign_key_check").fetchall()
+        if missing or unexpected_drift or fk_errors:
+            raise RuntimeError("Verification failed: missing=" + repr(missing) +
+                               " drift=" + repr(unexpected_drift) + " foreign_keys=" + repr(fk_errors))
+        print(json.dumps({"status": "NO_CHANGE" if set(expected_objects).issubset(before) else "INSTALLED_STORAGE",
+                          "database": str(db), "tables": len(expected), "views": len(views),
+                          "schema_fields": sum(len(x) for x in schema.values()), "relations": 3,
+                          "verified": True}, ensure_ascii=False))
     finally:
         con.close()
 
