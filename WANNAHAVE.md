@@ -4,43 +4,6 @@
 >
 > **Evidenzgrenze:** Dies ist eine auf Notion-Quellmetadaten und dokumentierten Funktionsverträgen basierende **portable Kernrekonstruktion**, kein nachgewiesen funktionsidentischer Snapshot der laufenden v0.6-Automation. Die vollständige v0.6-Dateianlage und das Solver-Quellarchiv konnten nicht als Textinhalt extrahiert werden. Alle fehlenden exakten Implementierungsdetails sind Blocker, keine Einladung zur Erfindung.
 
-## 0A · ZWINGENDER AUSFÜHRUNGSVERTRAG (v0.3)
-
-**WICHTIG: Diese Datei ist ein INSTALLATIONSAUFTRAG, keine Gesprächsgrundlage, Rechercheaufgabe oder Einladung zu Architekturentwürfen.** Bei Übergabe durch einen Nutzer mit Aufforderung zur Installation ist das nächste Ziel eine tatsächliche, verifizierte Zustandsänderung im Zielsystem. Das Aufzählen von Schritten ohne Umsetzung ist ein FEHLSCHLAG.
-
-### Ausführungspflicht und Werkzeugbindung
-
-1. **Direkt starten.** Erster verfügbarer Werkzeugschritt: verfügbare Notion-/Datenbank-/Datei-/Automationswerkzeuge feststellen und zielgerichtet den vorhandenen WANNAHAVE-Bestand lesen. Vorher keine ausufernde Planung, kein Interview und keine neue Spezifikation schreiben.
-2. **Eine ausführbare Route wählen, keine Architektur erfinden.** Diese Version enthält einen konkreten **Notion-Adapter** mit exaktem Schema. Bei verbundenem, schreibfähigem Notion verwende ihn. Mögliche Werkzeugnamen: `mcp__Notion__search`, `mcp__Notion__fetch`, `mcp__Notion__notion_create_pages`, `mcp__Notion__notion_create_database`, `mcp__Notion__notion_update_data_source`, `mcp__Notion__notion_create_view`. Ermittle die tatsächlich verfügbaren Namen/Schemas; erfinde keine Aufrufparameter. Wende die YAML-Felder mit *exakt den angegebenen Namen, Typen und Auswahloptionen* an. Notion-IDs der Zielinstanz müssen aus echten Toolantworten stammen.
-3. **Fehlt Notion?** Ein anderes Backend ist in dieser Version **noch nicht vollständig spezifiziert**. Erfinde keinen eigenen PostgreSQL-/SQLite-/App-Stack und behaupte keine Gleichwertigkeit. Gib `BLOCKED_BACKEND` aus und nenne als einzigen konkreten nächsten Schritt: Notion verbinden **oder** die explizit spezifizierte alternative Backend-Implementierung bereitstellen. Den restlichen Installationsplan nicht als erledigt ausgeben.
-4. **Fehlende Pflichtinformation?** Frage nur EINEN tatsächlichen Blocker, z. B. welchen Ziel-Workspace du verwenden sollst, wenn kein eindeutiger autorisierter Zielort feststeht. Kann der Zielort eindeutig aus dem Nutzerauftrag und den Werkzeugdaten bestimmt werden, stelle keine weitere Frage.
-5. **Freigabe:** Ein ausdrücklicher Nutzerauftrag, WANNAHAVE in einer konkret benannten Zielumgebung zu installieren, erlaubt noch keinen Datenverlust. Prüfe das Delta. Bei nur additiven, reversiblen Objekten und ausdrücklicher Gesamtfreigabe direkt handeln und nicht vor jeder Tabelle erneut fragen. Falls die Gesamtfreigabe fehlt, zeige EINMAL die genaue Änderungsliste und frage EINMAL. Löschen, Überschreiben, riskante Migrationen und Käufe brauchen ihre eigene Freigabe.
-6. **Kein Selbstgespräch:** Keine Alternativarchitekturen, Branding-/UI-Debatten, Softwarevergleiche, weitere Generatoren oder unbestellten Refactorings. Fehlendes v0.6-Datei-Artefakt und fehlender optionaler Solver **blockieren die Kerninstallation nicht**; kennzeichne lediglich deren Funktionsgrenze. Nach jedem echten Werkzeugresultat den nächsten Installationsschritt durchführen.
-7. **Keine Phantom-Installation:** Wenn das System weder Notion-Werkzeuge noch Schreibrechte bereitstellt, melde in 3–5 Zeilen `BLOCKED_SETUP`/`BLOCKED_BACKEND`, das konkrete Hindernis und die erforderliche Nutzeraktion. Sätze wie „habe eingerichtet“ sind ohne nachgelesene Objekt-IDs und Zustände verboten.
-
-### Atomare Ausführungsfolge
-
-Diese Tabelle ist eine **auszuführende Befehlsfolge**, keine Checkliste für einen Bericht. Überspringe nur nach belegtem `NOOP`.
-
-| Schritt | Vorbedingung | Erforderliche Aktion | Beleg für PASS |
-| --- | --- | --- | --- |
-| X00 | Nutzer will Installation | Ziel-Tools und Zielort konkret feststellen; vorhandene WANNAHAVE-Seite/DBs lesen | tatsächliche Werkzeugantworten oder exakter Blocker |
-| X01 | Zielort + nötige Gesamtfreigabe | Einmalig die WANNAHAVE-Elternseite erstellen, falls nicht vorhanden | Seite durch Fetch/Readback identifiziert |
-| X02 | Elternseite existiert | DB 01–05 gemäß YAML in Reihenfolge erstellen oder fehlende Properties ergänzen, pro DB vorhandenen Zustand vorher prüfen | fünf echte DB-IDs, alle Schemafelder/Optionen nachgelesen |
-| X03 | fünf DBs vorhanden | drei Relationsfelder zu den ermittelten Ziel-Data-Sources herstellen | Relationsziele aus Ziel-API nachgelesen |
-| X04 | Schema & Relationen stimmen | exakt spezifizierte Ansichten erstellen; unklare View-Details nicht erfinden | vorhandene/erstellte Views gelesen, Lücken als VIEW_PARTIAL |
-| X05 | Datenkern vorhanden | Integritätsprüfung und idempotenten zweiten Schema-Lauf ausführen | zweiter Durchlauf erzeugt 0 DBs, 0 doppelte Felder |
-| X06 | Scheduler zugänglich und freigegeben | genau einen WANNAHAVE-Job mit dem G0–G6-Lauf einrichten/aktualisieren | Job-ID, Intervall und echter Testlauf überprüft |
-| X07 | vorherige Schritte geprüft | Ergebnis mit PASS/PARTIAL/BLOCKED pro Schritt und tatsächlichen Ziel-URLs ausgeben | keine unbelegten Erfolgsbehauptungen |
-
-**Arbeitsmodus:** Wiederhole `READ -> DIFF -> APPLY -> READBACK` für jedes Zielobjekt. Bei API-Fehlern nur die betroffene Operation prüfen/wiederholen. Arbeite auch bei optionalen fehlenden Modulen an allen übrigen freigegebenen Kernschritten weiter.
-
-**Stopbedingungen:** (a) tatsächliche fehlende Berechtigung; (b) unbekannter Zielort, den nur der Nutzer bestimmen kann; (c) fehlende explizite Gesamtfreigabe; (d) inkompatible Bestandsressource mit Migrationsrisiko; (e) keine definierte Backend-Implementierung. Alles andere ist zu erledigende Arbeit, kein Grund für eine bloße Empfehlung.
-
-**Nicht zulässiger Endzustand:** „Hier ist, was du jetzt tun solltest“, „ich würde fünf Datenbanken anlegen“, reine Architekturplanung oder `READY` ohne echten Readback. Wenn du technisch nichts mutieren kannst, melde den wahren Blocker, statt Arbeit zu simulieren.
-
----
-
 ## START · Verbindlicher Ausführungsvertrag (vor allem anderen lesen)
 
 **Dies ist ein INSTALLATIONSAUFTRAG, keine Einladung zu einem Architekturreferat.** Beginne bei vorhandenen Werkzeugen innerhalb dieses Aufrufs mit einer echten lesenden Tooloperation. Gib nicht zuerst einen langen Plan, ein Sollkonzept oder einen alternativen Entwurf aus. Nach höchstens einer kompakten Bestandsaufnahme gehe zum ersten tatsächlich freigegebenen Schreibschritt. Wiederhole keine philosophischen Abwägungen, keine erneute Systementwicklung, keine Pseudo-Tools.
@@ -542,9 +505,11 @@ discovery_score:
 
 ## 2 · Installation als überprüfbare Zustandsmaschine
 
-Führe I0–I4 **wirklich mit Ziel-Werkzeugaufrufen** aus. Die verbindliche Werkzeug- und Ausführungsfolge X00–X07 aus Abschnitt 0A hat Vorrang vor rein beschreibenden Sätzen. In jedem Schritt gilt: Vorbedingung prüfen → notwendiges Delta anwenden → Ergebnis mit dem tatsächlich verfügbaren Notion-Tool nachlesen → fortsetzen. Bei fehlender Freigabe/Toolfähigkeit präzise stoppen, nicht unverrichtete Arbeit als Installation ausgeben.
+Führe I0–I4 **wirklich mit Ziel-Werkzeugaufrufen** aus. Der einmalige START-Vertrag hat Vorrang vor erläuterndem Text. Bei backend=Notion gelten die folgenden I0–I4-Notion-Operationen. Bei backend=SQLite wird I1 mit dem vollständig eingebetteten, ausführbaren Installer in Abschnitt A erledigt. Je Schritt gilt: Read → Delta → Write nach Freigabe → Readback. Fehlt die Toolfähigkeit, präzise stoppen.
 
 ### I0 · PRECHECK (nur lesen)
+
+Bei `backend=SQLite` nur Python-Version, dauerhaft schreibbaren Zielpfad und vorhandene lokale WANNAHAVE-Datenbank prüfen, dann Abschnitt A. Die folgenden Notion-spezifischen Schritte überspringen.
 
 - Ermittle den Ziel-Workspace und bestehenden WANNAHAVE-Bestand. Suche nach gleichnamigen Seiten, fünf Datenbanken, ihren Eigenschaften, Ansichten und Relationen. Prüfe, ob sie zum beabsichtigten System gehören und welche Rechte bestehen. Treffer nie allein anhand des Titels automatisch übernehmen.
 - Lies die relevanten Schemas einmal je Datenquelle, nicht wiederholt pro Feld. Speichere eine Zuordnung `logical_name -> target_database_id -> target_data_source_id` *nur in der Zielumgebung*.
@@ -552,6 +517,8 @@ Führe I0–I4 **wirklich mit Ziel-Werkzeugaufrufen** aus. Die verbindliche Werk
 - Erfasse vor jeder Änderung das Delta einschließlich create/update/migrate/noop, betroffener Daten, Reversibilität und Risiko. Bitte bei geplanter Mutation um die erforderliche explizite Gesamtfreigabe. Ein bloßer Promptaufruf ist keine Blankovollmacht für irreversiblen Datenverlust.
 
 ### I1 · PARENT UND DBs (nur freigegeben)
+
+Bei `backend=SQLite` die folgenden Notion-spezifischen Aufträge überspringen; stattdessen exakt den Installer aus Abschnitt A ausführen.
 
 - Falls keine vertrauenswürdig zugeordnete Zielseite existiert: Erzeuge genau eine Seite **WANNAHAVE · Wunschliste & Deal-Watch** unter dem vom Nutzer gewählten Ziel-Elternobjekt und verifiziere den zurückgegebenen Seitenbezeichner.
 - Unter dieser Seite erzeuge oder erweitere genau fünf Datenbanken mit den YAML-Namen. Verwende die im Manifest hinterlegten exakt benannten Properties und Typen. Ein Feld mit Typkonflikt wird **nicht** durch ein neues Duplikat ersetzt oder still umgetypt. Kläre oder sichere die nötige Migration.
@@ -561,6 +528,8 @@ Führe I0–I4 **wirklich mit Ziel-Werkzeugaufrufen** aus. Die verbindliche Werk
 
 ### I2 · DATA-INTEGRITY
 
+Bei `backend=SQLite` eindeutige Schlüssel, Fremdschlüssel und Struktur mit der nachgelagerten Readback-Prüfung des Installers validieren. Keine Notion-API-Schritte auf SQLite anwenden.
+
 - Normalisiere stabile Identitäten ohne Datenverlust: `Produkt-Key` für Wunsch, `Angebots-Key` für konkrete Händlerartikel+Variante+Zustand, `Verkäufer-Key` für Plattform+Anbieteridentität, Coupon-Key für Händler+Code+Bedingungen. Das genaue kanonische Key-Format der Quellinstanz war nicht nachweisbar und wird NICHT als kopierte Originalimplementierung behauptet. Entscheide und dokumentiere ein deterministisches Zielschema vor dem ersten Eintrag; bestehende Keys nicht ohne Migration überschreiben.
 - Prüfe relations, Auswahlwerte, Typen und Datenintegrität. In Notion ist die Eindeutigkeit dieser Text-Keys nicht durch echte SQL-Unique-Constraints garantiert: Erzwinge sie im Agenten durch Lookup vor Upsert und Read-after-Write. Falls sichere parallele Upserts nicht möglich sind, serialisiere Schreibvorgänge je Key.
 - `Zielpreis EUR` und `Maximalpreis EUR` sind **optional und unabhängig**; `null` bedeutet „nicht konfiguriert“. Ein fehlendes Limit ist kein Preisziel und darf keine künstliche Deal-Meldung auslösen. Vorhandene harte Anforderungen oder ausdrückliche Maximalbudgets bleiben verbindlich.
@@ -568,12 +537,12 @@ Führe I0–I4 **wirklich mit Ziel-Werkzeugaufrufen** aus. Die verbindliche Werk
 ### I3 · SCHEDULER / NOTIFICATIONS
 
 - Ermittle reale Scheduler-/Automationsfähigkeit; falls vorhanden, nutze **genau einen** verwalteten Job je WANNAHAVE-Instanz, Standardintervall 60 min und Ziel-Zeitzone. Nur nach nötiger Nutzerfreigabe anlegen/ändern. Ein Prompt an sich installiert keinen Scheduler; `READY_AUTOMATED` erst nach Nachlesen von Job-ID, Prompt, Zeitplan und erfolgreichem ersten Testlauf melden.
-- Ohne Scheduler: `READY_MANUAL`, mit dokumentiertem manuellen Start. Ohne Schreibrechte auf dem gewählten Backend: `BLOCKED_SETUP` statt vorgeblicher Installation. Wenn Notion nicht zugänglich ist, prüfe vor dem Blockieren den SQLite-Fallback. Fehlendes Python oder Gmail allein blockiert nicht die normale manuelle oder agentische Recherche.
+- Ohne Scheduler und bei tatsächlich möglicher manueller Live-Recherche: `READY_MANUAL`. Falls ausschließlich die SQLite-Datenhaltung installiert ist: `READY_STORAGE_ONLY`. Ohne Schreibrechte auf dem gewählten Backend: `BLOCKED_SETUP` statt vorgeblicher Installation. Wenn Notion nicht zugänglich ist, prüfe vor dem Blockieren den SQLite-Fallback. Fehlendes Python oder Gmail allein blockiert nicht die normale manuelle oder agentische Recherche.
 - Benachrichtigungen nur bei echten neu belegten Signalen, gegen `Alarm-Fingerprint` dedupliziert. Optionaler Mailkanal nur bei tatsächlich verbundenem und autorisiertem Versand. Keine „Topdeal“-Mails aus Suchindex-Treffern oder bloßen Scores.
 
 ### I4 · ABNAHME
 
-- Nach dem Erstellen: fünf Datenbanken, alle Feldtypen/Optionen, drei Relationen und alle klar spezifizierten Ansichten rücklesen; Abweichungen exakt reporten.
+- Nach dem Erstellen: bei Notion fünf Datenbanken, Felder, Relationen und definierte Ansichten rücklesen; bei SQLite fünf Kern- plus drei Relationstabellen und zwölf Views mit den im Installer definierten Indizes und Foreign-Keys verifizieren; Abweichungen exakt reporten.
 - Test A: erste Anlage -> genau ein Objekt pro logischem Key. Test B: **zweiter Installationsdurchlauf** -> `NO_CHANGE`, null neue Datenbanken, null neue Automationen, null Datenverlust. Test C: fehlerhafte Rechte -> kontrolliertes `BLOCKED_SETUP`. Test D: unklarer gleichnamiger Datensatz -> `BLOCKED_CONFLICT` ohne Mutation.
 - Vollständigen Deal-Lauf nur dann als getestet melden, wenn echte Original-Händlerseiten und mögliche Schreibvorgänge auf dem gewählten Backend tatsächlich durchlaufen und nachgelesen wurden. Keine Live-Angaben aus Tests ableiten.
 
@@ -613,194 +582,212 @@ Vorhandene Notion-Struktur: `01.Eintragstyp` (Einzelbedarf/Verbund), `01.Teil vo
 
 **NICHT PORTIERT:** Die Quellinstanz dokumentiert einen separat programmierten Python-Solver v0.3.0 (23/23 Tests lokal bestanden) als TAR.XZ-Archiv mit Prüfsumme in Notion. Quellarchiv und vollständiger Code wurden nicht in diesen Prompt integriert. Installiere oder behaupte daher **keine** automatische End-to-End-Verbundoptimierung, bis der tatsächliche Code mit Integrität, Abhängigkeiten und Tests als portables Artefakt verfügbar ist. Die Datenstruktur darf bereits angelegt werden. Nicht vorhandene Live-Flug-/Hoteladapter und Buchungsfunktion dürfen nicht als implementiert ausgegeben werden.
 
-## A · SQLite-Adapter (verbindlicher Fallback, wenn Notion nicht verfügbar ist)
+## A · SQLite-Backend: vollständiger ausführbarer Speicherinstaller
 
-Dieser Abschnitt ist **exakt ausführbar** in einer dauerhaft beschreibbaren Umgebung mit Python 3 und Standardbibliothek sqlite3. Er installiert dieselben fünf logischen Datengruppen sowie drei Relations-Tabellen. Notion-spezifische Dashboard-Ansichten, Connectoren und Scheduler werden dadurch NICHT automatisch bereitgestellt. Ohne persistentes Dateisystem kein SQLite-Fallback.
+Aktiviere **nur** bei `backend=sqlite`. Das ist ein vollständig ausführbares Storage-Bootstrap, **nicht** ein vorgetäuschter Händlercrawler. Benötigt Python 3.9+ mit Standardbibliothek und einen schreibbaren Zielordner. Installiert exakt die fünf Original-Datenmodelle als SQLite-Tabellen, drei Bridge-Relationstabellen und zwölf abfragbare Views, inklusive Select-Checks, stabilen Eindeutigkeitsindizes, Fremdschlüsseln und Read-back-Verifikation. Die Namen und Typen werden aus dem obigen YAML-Block geparst; kein externes YAML-Paket, keine separaten Repository-Dateien, keine Datenübernahme.
 
-**A0.** Lege im autorisierten, dauerhaft beschreibbaren Zielverzeichnis die Datei `wannahave.schema.sql` an. Ihr Inhalt ist **wortgleich** der nachfolgende SQL-Block; keine Felder auslassen, keine eigenen Feldnamen erfinden. Lege sie nicht im Quell-GitHub-Repository an: dieses enthält weiterhin nur `WANNAHAVE.md`.
+**Konkreter Ablauf:**
 
-**A1.** Führe im selben Verzeichnis genau diesen Befehl aus (Unix-Shell mit `python3`; bei einer Python-Installation mit anderem Kommando nur den Interpreter-Namen ersetzen):
+1. Lege den **vollständigen Inhalt dieses Prompts** in der Zielumgebung als `WANNAHAVE.md` ab, sofern nicht bereits als Datei vorhanden. Wenn du den Text nur als Chat-Nachricht erhalten hast und keine Dateischreibfunktion besitzt, melde sofort `BLOCKED_CAPABILITY`. Kein virtuelles Dateisystem behaupten.
+2. Kopiere den folgenden Python-Code **wortgetreu** in eine temporäre Datei `install_wannahave_sqlite.py`. Wenn `WANNAHAVE.md` bereits lokal liegt, kannst du dies ohne manuelles Kopieren mit dem folgenden exakten Befehl tun:
 
-```sh
-python3 - <<'PY'
-from pathlib import Path
+```bash
+python3 -c 'from pathlib import Path; s=Path("WANNAHAVE.md").read_text(encoding="utf-8"); s=s.rsplit("<!-- SQLITE_INSTALLER_BEGIN -->",1)[1].split("<!-- SQLITE_INSTALLER_END -->",1)[0]; code=s.split("```python\n",1)[1].split("\n```",1)[0]; Path("install_wannahave_sqlite.py").write_text(code,encoding="utf-8")'
+```
+
+3. Führe nach der vereinbarten Gesamtfreigabe diese beiden **wirklichen** Befehle aus, im Zielordner:
+
+```bash
+python3 install_wannahave_sqlite.py WANNAHAVE.md ./wannahave.sqlite
+python3 install_wannahave_sqlite.py WANNAHAVE.md ./wannahave.sqlite
+```
+
+**Erfolg:** 1. Lauf meldet `INSTALLED_STORAGE`, zweiter `NO_CHANGE`, beide mit `verified=true`, `tables=8`, `views=12`, `schema_fields=105`, `relations=3`. Bei `BLOCKED_SETUP` oder `BLOCKED_CONFLICT` nicht improvisieren oder behaupten, dass etwas installiert wurde. Der Jobstatus lautet danach zunächst `READY_STORAGE_ONLY`, bis reale Recherchewerkzeuge und planmäßige Ausführung getrennt eingerichtet und getestet sind.
+
+<!-- SQLITE_INSTALLER_BEGIN -->
+```python
+#!/usr/bin/env python3
+"""Embedded WANNAHAVE SQLite installer. Requires Python 3.9+, stdlib only."""
+import json
+import pathlib
+import re
 import sqlite3
-p = Path("wannahave.sqlite3")
-sql = Path("wannahave.schema.sql").read_text(encoding="utf-8")
-conn = sqlite3.connect(p)
-conn.execute("PRAGMA foreign_keys=ON")
-conn.executescript(sql)
-expected = {"wishes": 20, "offers": 48, "price_history": 8, "seller_trust": 14, "coupons": 17}
-for table, n in expected.items():
-    actual = len(conn.execute(f'PRAGMA table_info("{table}")').fetchall())
-    assert actual == n, f"{table}: expected {n} columns, got {actual}"
-links = {"wish_parent", "offer_contains", "offer_wish"}
-found = {r[0] for r in conn.execute("SELECT name FROM sqlite_master WHERE type='table'")}
-assert links <= found, f"Missing link tables: {links - found}"
-conn.execute("PRAGMA foreign_key_check")
-assert not conn.execute("PRAGMA foreign_key_check").fetchall()
-print("WANNAHAVE_SQLITE_SCHEMA_OK", str(p.resolve()))
-conn.close()
-PY
+import sys
+
+
+def schema_from_markdown(markdown):
+    match = re.search(r"```yaml\n(.*?)\n```", markdown, re.S)
+    if not match:
+        raise RuntimeError("YAML manifest not found")
+    schema = {}
+    inside = False
+    table = None
+    field = None
+    for line in match.group(1).splitlines():
+        if line == "  databases:":
+            inside = True
+            continue
+        if not inside:
+            continue
+        if re.match(r"^  \S", line):
+            break
+        m = re.match(r"^    (\S.*):$", line)
+        if m:
+            table = m.group(1)
+            schema[table] = {}
+            continue
+        m = re.match(r"^      (\S.*):$", line)
+        if m:
+            field = m.group(1)
+            schema[table][field] = {}
+            continue
+        m = re.match(r"^        type: (\S+)$", line)
+        if m:
+            schema[table][field]["type"] = m.group(1)
+            continue
+        m = re.match(r"^        relation_target: (.+)$", line)
+        if m:
+            schema[table][field]["target"] = m.group(1)
+            continue
+        m = re.match(r"^        - (.+)$", line)
+        if m:
+            schema[table][field].setdefault("options", []).append(m.group(1))
+    if len(schema) != 5 or sum(len(v) for v in schema.values()) != 105:
+        raise RuntimeError("Unexpected schema size; stop rather than invent fields")
+    return schema
+
+
+def quote(name):
+    return '"' + name.replace('"', '""') + '"'
+
+
+def sql_type(kind):
+    return {"title": "TEXT", "text": "TEXT", "url": "TEXT", "select": "TEXT", "date": "TEXT", "checkbox": "INTEGER", "number": "NUMERIC"}.get(kind)
+
+
+def build(schema):
+    ddl = []
+    expected = {}
+    bridges = []
+    for table, fields in schema.items():
+        cols = [("_wannahave_id", "INTEGER")]
+        parts = ['"_wannahave_id" INTEGER PRIMARY KEY AUTOINCREMENT']
+        for name, conf in fields.items():
+            kind = conf["type"]
+            if kind == "relation":
+                target = conf["target"]
+                if target not in schema:
+                    raise RuntimeError("Unknown relation target " + target)
+                bridges.append((table, name, target))
+                continue
+            kind_sql = sql_type(kind)
+            if not kind_sql:
+                raise RuntimeError("Unsupported field type " + kind)
+            constraints = ""
+            if kind == "select" and conf.get("options"):
+                values = ", ".join("'" + x.replace("'", "''") + "'" for x in conf["options"])
+                constraints = " CHECK (" + quote(name) + " IN (" + values + ") OR " + quote(name) + " IS NULL)"
+            if kind == "checkbox":
+                constraints = " CHECK (" + quote(name) + " IN (0,1) OR " + quote(name) + " IS NULL)"
+            cols.append((name, kind_sql))
+            parts.append(quote(name) + " " + kind_sql + constraints)
+        expected[table] = cols
+        ddl.append("CREATE TABLE IF NOT EXISTS " + quote(table) + " (" + ", ".join(parts) + ")")
+
+    for table, fld, target in bridges:
+        bridge = "WANNAHAVE_LINK_" + re.sub(r"[^a-zA-Z0-9]+", "_", table + "_" + fld).strip("_")
+        expected[bridge] = [("source_id", "INTEGER"), ("target_id", "INTEGER")]
+        ddl.append("CREATE TABLE IF NOT EXISTS " + quote(bridge) + " (" +
+                   '"source_id" INTEGER NOT NULL, "target_id" INTEGER NOT NULL, ' +
+                   'PRIMARY KEY ("source_id", "target_id"), ' +
+                   'FOREIGN KEY ("source_id") REFERENCES ' + quote(table) + '("_wannahave_id") ON DELETE CASCADE, ' +
+                   'FOREIGN KEY ("target_id") REFERENCES ' + quote(target) + '("_wannahave_id") ON DELETE CASCADE' + ")")
+
+    unique = [
+        ("uix_wannahave_product", "01 · Wunschprodukte", ['"Produkt-Key"']),
+        ("uix_wannahave_offer", "02 · Händlerangebote", ['"Angebots-Key"']),
+        ("uix_wannahave_seller", "04 · Verkäufer-Vertrauen", ['"Verkäufer-Key"']),
+        ("uix_wannahave_coupon", "05 · Gutscheine & Rabattcodes", [
+            'COALESCE("Händler-Key", \'\')', 'COALESCE("Code", \'\')',
+            'COALESCE("Ausschlüsse & Bedingungen", \'\')']),
+    ]
+    for ix, table, keys in unique:
+        ddl.append("CREATE UNIQUE INDEX IF NOT EXISTS " + quote(ix) + " ON " + quote(table) + " (" + ", ".join(keys) + ")")
+
+    views = {
+        "Wünsche · Kaufwünsche": ('01 · Wunschprodukte', '"Status" IN (\'Beobachten\',\'Kaufen bei Deal\')', '"Priorität", "Produkt"'),
+        "Wünsche · Prioritäten": ('01 · Wunschprodukte', '1=1', '"Status", "Priorität"'),
+        "Wünsche · Nach Bereichen": ('01 · Wunschprodukte', '1=1', '"Bereich", "Produkt"'),
+        "Wünsche · Reisevorhaben": ('01 · Wunschprodukte', '"Bereich"=\'Reisen\'', '"Zeitfenster von"'),
+        "Angebote · Bestätigt": ('02 · Händlerangebote', '"Prüfstatus"=\'Bestätigt\'', '"Gesamt EUR"'),
+        "Angebote · Musikangebote": ('02 · Händlerangebote', '"Bereich"=\'Musik\'', '"Gesamt EUR"'),
+        "Angebote · Reise-Bausteine": ('02 · Händlerangebote', '"Bereich"=\'Reisen\' AND "Eintragsart"=\'Einzelangebot\'', '"Leistung von"'),
+        "Angebote · Reisekombinationen": ('02 · Händlerangebote', '"Eintragsart"=\'Kombination\'', '"Gesamt EUR"'),
+        "Angebote · Nach Bereichen": ('02 · Händlerangebote', '1=1', '"Bereich", "Gesamt EUR"'),
+        "Historie · Chronologie": ('03 · Preis- & Statusverlauf', '1=1', '"Zeitpunkt" DESC'),
+        "Verkäufer · Verkäuferprüfung": ('04 · Verkäufer-Vertrauen', '1=1', '"Zuletzt geprüft" DESC'),
+        "Gutscheine · Aktive Rabattcodes": ('05 · Gutscheine & Rabattcodes', '"Prüfstatus" NOT IN (\'Ungültig\',\'Abgelaufen\')', '"Gültig bis"'),
+    }
+    for name, (table, filt, order) in views.items():
+        ddl.append("CREATE VIEW IF NOT EXISTS " + quote(name) + " AS SELECT * FROM " + quote(table) + " WHERE " + filt + " ORDER BY " + order)
+    return ddl, expected, views
+
+
+def main():
+    if len(sys.argv) != 3:
+        raise RuntimeError("Usage: python3 install.py WANNAHAVE.md /path/wannahave.sqlite")
+    md = pathlib.Path(sys.argv[1]).read_text(encoding="utf-8")
+    db = pathlib.Path(sys.argv[2]).expanduser().resolve()
+    schema = schema_from_markdown(md)
+    ddl, expected, views = build(schema)
+    if db.exists() and not db.is_file():
+        raise RuntimeError("Database path exists but is not a regular file")
+    db.parent.mkdir(parents=True, exist_ok=True)
+    con = sqlite3.connect(str(db))
+    try:
+        con.execute("PRAGMA foreign_keys=ON")
+        before = {row[0] for row in con.execute("SELECT name FROM sqlite_master WHERE type IN ('table','view','index')")}
+        for table, cols in expected.items():
+            if table in before:
+                found = [(r[1], r[2].upper()) for r in con.execute("PRAGMA table_info(" + quote(table) + ")")]
+                if found != cols:
+                    raise RuntimeError("BLOCKED_CONFLICT: existing table differs: " + table)
+        con.execute("BEGIN IMMEDIATE")
+        for statement in ddl:
+            con.execute(statement)
+        con.commit()
+        after = {row[0] for row in con.execute("SELECT name FROM sqlite_master WHERE type IN ('table','view','index')")}
+        missing = (set(expected) | set(views)) - after
+        if missing:
+            raise RuntimeError("Verification failed, missing objects: " + repr(sorted(missing)))
+        print(json.dumps({"status": "NO_CHANGE" if set(expected).issubset(before) and set(views).issubset(before) else "INSTALLED_STORAGE", "database": str(db), "tables": len(expected), "views": len(views), "schema_fields": sum(len(x) for x in schema.values()), "relations": 3, "verified": True}, ensure_ascii=False))
+    finally:
+        con.close()
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception as exc:
+        print(json.dumps({"status": "BLOCKED_CONFLICT" if str(exc).startswith("BLOCKED_CONFLICT") else "BLOCKED_SETUP", "error": str(exc)}, ensure_ascii=False))
+        sys.exit(1)
 ```
+<!-- SQLITE_INSTALLER_END -->
 
-**A2.** Führe A1 erneut aus. Nur wenn die Ausgabe wieder `WANNAHAVE_SQLITE_SCHEMA_OK` lautet und Tabellen- und Zeilenzahl unverändert sind, ist die strukturelle Idempotenz geprüft. Vorhandene Tabellen mit inkompatiblen Typen, Indizes oder Constraints nicht ersetzen: als `BLOCKED_CONFLICT` melden. Die obige Spaltenzahlprüfung allein belegt weder Typ- noch Indexidentität; bei einem Upgrade zusätzlich `sqlite_master.sql` gegen das erwartete Schema vergleichen.
-
-**A3.** SQL ist lediglich der Speicheradapter. G0–G6 bleiben die fachliche Ausführungsanweisung für einen Agenten mit Webzugriff und schreibbarem DB-Zugriff. Ist keine dauerhafte Agent-/Scheduler-Ausführung vorhanden: `READY_MANUAL` oder `READY_LIMITED` statt erfundener stündlicher Überwachung.
-
-```sql
-PRAGMA foreign_keys = ON;
-
--- WANNAHAVE portable-core / SQLite. Idempotent creation only; no destructive migration.
-
-CREATE TABLE IF NOT EXISTS "wishes" (
-  row_id INTEGER PRIMARY KEY AUTOINCREMENT,
-  "Produkt" TEXT,
-  "Produkt-Key" TEXT,
-  "Alternativen erlaubt" INTEGER CHECK ("Alternativen erlaubt" IS NULL OR "Alternativen erlaubt" IN (0, 1)),
-  "Anforderungen" TEXT,
-  "Anzahl Personen" NUMERIC,
-  "Bereich" TEXT CHECK ("Bereich" IS NULL OR "Bereich" IN ('Musik', 'Reisen', 'Mobilität', 'Technik', 'Sonstiges')),
-  "Eintragstyp" TEXT CHECK ("Eintragstyp" IS NULL OR "Eintragstyp" IN ('Einzelbedarf', 'Verbund')),
-  "Kategorie" TEXT CHECK ("Kategorie" IS NULL OR "Kategorie" IN ('Sampler', 'Synthesizer', 'Drummachine', 'E-Scooter', 'Audio/Studio', 'Sonstiges', 'Sequencer')),
-  "Kommentar" TEXT,
-  "Maximalpreis EUR" NUMERIC,
-  "Preis zuletzt geprüft" TEXT,
-  "Priorität" TEXT CHECK ("Priorität" IS NULL OR "Priorität" IN ('A · hoch', 'B · mittel', 'C · niedrig')),
-  "Randbedingungen" TEXT,
-  "Referenzpreis EUR" NUMERIC,
-  "Status" TEXT CHECK ("Status" IS NULL OR "Status" IN ('Beobachten', 'Kaufen bei Deal', 'Pausiert', 'Gekauft', 'Nicht mehr gewünscht')),
-  "Variante" TEXT,
-  "Zeitfenster bis" TEXT,
-  "Zeitfenster von" TEXT,
-  "Zielpreis EUR" NUMERIC
-);
-
-CREATE TABLE IF NOT EXISTS "offers" (
-  row_id INTEGER PRIMARY KEY AUTOINCREMENT,
-  "Angebot" TEXT,
-  "Alarm-Fingerprint" TEXT,
-  "Alarmstufe" TEXT CHECK ("Alarmstufe" IS NULL OR "Alarmstufe" IN ('Topdeal', 'Interessant', 'Normal', 'Sperren')),
-  "Angebot gültig bis" TEXT,
-  "Angebots-Key" TEXT,
-  "Auswahlstatus" TEXT CHECK ("Auswahlstatus" IS NULL OR "Auswahlstatus" IN ('Kandidat', 'Ausgewählt', 'Gebucht', 'Storniert')),
-  "Bereich" TEXT CHECK ("Bereich" IS NULL OR "Bereich" IN ('Musik', 'Reisen', 'Mobilität', 'Technik', 'Sonstiges')),
-  "Bildabgleich" TEXT CHECK ("Bildabgleich" IS NULL OR "Bildabgleich" IN ('Gesehen/passend', 'Nicht prüfbar', 'Widerspruch')),
-  "Buchungsreferenz" TEXT,
-  "Chance bewertet am" TEXT,
-  "Chancen-Begründung" TEXT,
-  "Chancen-Score" NUMERIC,
-  "Dealtyp" TEXT CHECK ("Dealtyp" IS NULL OR "Dealtyp" IN ('Normalpreis', 'Preisrückgang', 'Black Friday', 'Unbewertet')),
-  "Direktlink" TEXT,
-  "Effektivpreis EUR" NUMERIC,
-  "Eintragsart" TEXT CHECK ("Eintragsart" IS NULL OR "Eintragsart" IN ('Einzelangebot', 'Kombination', 'Order')),
-  "Erstmals gesehen" TEXT,
-  "Gesamt EUR" NUMERIC,
-  "Gutscheincode" TEXT,
-  "Gutscheinprüfung" TEXT CHECK ("Gutscheinprüfung" IS NULL OR "Gutscheinprüfung" IN ('Im Checkout bestätigt', 'Ungeprüft', 'Abgelehnt', 'Nicht zutreffend')),
-  "Händler" TEXT,
-  "Kapazität" NUMERIC,
-  "Konfiguration" TEXT,
-  "Leistung bis" TEXT,
-  "Leistung von" TEXT,
-  "Leistungsort" TEXT,
-  "Letzte Deal-Mail" TEXT,
-  "Lieferaussage" TEXT,
-  "Lieferbeleg" TEXT,
-  "Lieferstatus" TEXT CHECK ("Lieferstatus" IS NULL OR "Lieferstatus" IN ('Händlerdatum belegt', 'Händlerfenster belegt', 'Nur Händlerprognose', 'Nicht prüfbar', 'Nicht lieferbar')),
-  "Lieferung frühestens" TEXT,
-  "Lieferung geprüft" TEXT,
-  "Lieferung spätestens" TEXT,
-  "Preis EUR" NUMERIC,
-  "Preisreferenz" TEXT,
-  "Produkt-Key" TEXT,
-  "Prüfnotizen" TEXT,
-  "Prüfstatus" TEXT CHECK ("Prüfstatus" IS NULL OR "Prüfstatus" IN ('Vorprüfung', 'Bestätigt', 'Unvollständig', 'Nicht verfügbar', 'Abgelaufen', 'Falsche Variante')),
-  "Rabattqualität" TEXT CHECK ("Rabattqualität" IS NULL OR "Rabattqualität" IN ('Historisch belegt', 'Teilweise belegt', 'Unbelegt', 'Irreführend')),
-  "Suchpfad" TEXT,
-  "Variantenabgleich" TEXT CHECK ("Variantenabgleich" IS NULL OR "Variantenabgleich" IN ('Passend', 'Unklar', 'Nicht passend')),
-  "Verkäufer-Key" TEXT,
-  "Verkäufervertrauen" TEXT CHECK ("Verkäufervertrauen" IS NULL OR "Verkäufervertrauen" IN ('Hoch', 'Mittel', 'Niedrig', 'Unklar')),
-  "Versand EUR" NUMERIC,
-  "Zuletzt bestätigt" TEXT,
-  "Zuletzt geprüft" TEXT,
-  "Zustand" TEXT CHECK ("Zustand" IS NULL OR "Zustand" IN ('Neu', 'B-Stock', 'Gebraucht', 'Unklar'))
-);
-
-CREATE TABLE IF NOT EXISTS "price_history" (
-  row_id INTEGER PRIMARY KEY AUTOINCREMENT,
-  "Ereignis" TEXT,
-  "Angebots-Key" TEXT,
-  "Beobachtung" TEXT,
-  "Direktlink" TEXT,
-  "Gesamtpreis EUR" NUMERIC,
-  "Status" TEXT CHECK ("Status" IS NULL OR "Status" IN ('Neu', 'Preis sinkt', 'Preis steigt', 'Ausverkauft', 'Reaktiviert', 'Prüfproblem', 'Korrigiert')),
-  "Zeitpunkt" TEXT
-);
-
-CREATE TABLE IF NOT EXISTS "seller_trust" (
-  row_id INTEGER PRIMARY KEY AUTOINCREMENT,
-  "Verkäufer" TEXT,
-  "Verkäufer-Key" TEXT,
-  "Anzahl Rezensionen" NUMERIC,
-  "Bewertung" NUMERIC,
-  "Händler/Handle" TEXT,
-  "Käuferschutz" TEXT,
-  "Plattform" TEXT CHECK ("Plattform" IS NULL OR "Plattform" IN ('Eigener Shop', 'Amazon', 'eBay', 'Kleinanzeigen', 'Weitere')),
-  "Prüfbelege" TEXT,
-  "Prüfstatus" TEXT CHECK ("Prüfstatus" IS NULL OR "Prüfstatus" IN ('Bestätigt', 'Teilweise geprüft', 'Nicht prüfbar', 'Warnsignale')),
-  "Verkäuferalter" TEXT,
-  "Vertrauen" TEXT CHECK ("Vertrauen" IS NULL OR "Vertrauen" IN ('Hoch', 'Mittel', 'Niedrig', 'Unklar')),
-  "Warnsignale" TEXT,
-  "Zuletzt geprüft" TEXT
-);
-
-CREATE TABLE IF NOT EXISTS "coupons" (
-  row_id INTEGER PRIMARY KEY AUTOINCREMENT,
-  "Code / Aktion" TEXT,
-  "Ausschlüsse & Bedingungen" TEXT,
-  "Code" TEXT,
-  "Gültig ab" TEXT,
-  "Gültig bis" TEXT,
-  "Herkunft" TEXT,
-  "Händler" TEXT,
-  "Händler-Key" TEXT,
-  "Mindestbestellwert EUR" NUMERIC,
-  "Mit anderen kombinierbar" TEXT CHECK ("Mit anderen kombinierbar" IS NULL OR "Mit anderen kombinierbar" IN ('Ja', 'Nein', 'Unklar')),
-  "Nachweis" TEXT,
-  "Produkt/Kategorien" TEXT,
-  "Prüfstatus" TEXT CHECK ("Prüfstatus" IS NULL OR "Prüfstatus" IN ('Bestätigt im Warenkorb', 'Angekündigt', 'Ungeprüft', 'Ungültig', 'Abgelaufen', 'Personengebunden')),
-  "Rabattart" TEXT CHECK ("Rabattart" IS NULL OR "Rabattart" IN ('Prozent', 'EUR', 'Versand', 'Bundle')),
-  "Rabattwert" NUMERIC,
-  "Zuletzt getestet" TEXT
-);
-
-CREATE UNIQUE INDEX IF NOT EXISTS uq_wish_key ON "wishes"("Produkt-Key");
-
-CREATE UNIQUE INDEX IF NOT EXISTS uq_offer_key ON "offers"("Angebots-Key");
-
-CREATE UNIQUE INDEX IF NOT EXISTS uq_seller_key ON "seller_trust"("Verkäufer-Key");
-
-CREATE UNIQUE INDEX IF NOT EXISTS uq_coupon_key ON "coupons"(COALESCE("Händler-Key", ''), COALESCE("Code", ''), COALESCE("Code / Aktion", ''), COALESCE("Ausschlüsse & Bedingungen", ''));
-
-CREATE INDEX IF NOT EXISTS ix_price_history_offer_time ON "price_history"("Angebots-Key", "Zeitpunkt");
-
-CREATE TABLE IF NOT EXISTS "wish_parent" (wish_id INTEGER NOT NULL REFERENCES "wishes"(row_id), parent_id INTEGER NOT NULL REFERENCES "wishes"(row_id), PRIMARY KEY(wish_id, parent_id));
-
-CREATE TABLE IF NOT EXISTS "offer_contains" (parent_offer_id INTEGER NOT NULL REFERENCES "offers"(row_id), child_offer_id INTEGER NOT NULL REFERENCES "offers"(row_id), PRIMARY KEY(parent_offer_id, child_offer_id));
-
-CREATE TABLE IF NOT EXISTS "offer_wish" (offer_id INTEGER NOT NULL REFERENCES "offers"(row_id), wish_id INTEGER NOT NULL REFERENCES "wishes"(row_id), PRIMARY KEY(offer_id, wish_id));
-```
+**Abnahmegrenze:** Das SQLite-Backend ersetzt die Datenhaltung, nicht automatisch die Notion-Benutzeroberfläche, die stündliche Automation, den originalen Python-Kombinationssolver oder einen Händler-/Warenkorbbrowser. Bei fehlenden Fähigkeiten niemals `READY_AUTOMATED` melden. Ein separater Agent mit Web-Recherchewerkzeugen darf nach erfolgreichem Storage-Setup den beschriebenen G0–G6-Lauf auf derselben Datenbank ausführen, aber nur mit echten Live-Belegen und verifizierten Schreibaktionen.
 
 ## 4 · Fehler- und Freigabesemantik
 
 ```yaml
 execution_outcomes:
   READY: "Alle verpflichtenden Objekte und Prüfungen existieren und wurden ausgelesen; gewählte Betriebsart verifiziert"
+  READY_STORAGE_ONLY: "Nur eine geprüfte persistente Datenhaltung ist eingerichtet, ohne bestätigte Live-Recherche oder Scheduler"
+  READY_AUTOMATED: "Live-Recherche und Scheduler wirklich eingerichtet, ausgeführt und verifiziert"
   READY_LIMITED: "Kernfunktion vorhanden, optionales Modul oder Ansicht fehlt nachweislich"
   READY_MANUAL: "Kernsystem geprüft, aber kein freigegebener oder technisch verfügbarer Scheduler"
   NO_CHANGE: "Vollständiger geprüfter zweiter Lauf ohne semantisches Delta"
   BLOCKED_SETUP: "Fehlender Zugang, Berechtigung, verpflichtende Zielangabe oder Freigabe"
+  BLOCKED_CAPABILITY: "Kein ausführbarer autorisierter Backend- oder Dateisystemzugriff verfügbar"
   BLOCKED_CONFLICT: "Nicht erklärbarer Drift, fremder Besitzer oder inkompatible Zielressource"
   PARTIAL: "Änderung gestartet, aber nicht vollständig und erfolgreich verifiziert"
   FAILED: "Nachgewiesener kritischer Fehler, mit Beleg und Wiederanlaufpunkt"
@@ -819,7 +806,7 @@ deletion_policy: "Nie ohne ausdrückliche, auf die konkret betroffenen Objekte b
 
 | ID | Gegebener Zustand | Aktion | Erwartete beobachtbare Wirkung |
 |---|---|---|---|
-| T01 | leere Zielinstanz, Rechte und Freigabe vorhanden | Installation | exakt fünf DBs, benannte Typen, Optionen, Relationen, angelegte Hauptseite |
+| T01 | leere Zielinstanz, Rechte und Freigabe vorhanden | Installation | Notion: fünf DBs, Properties/Relationen, Hauptseite; SQLite: fünf Kerntabellen, drei Bridges, zwölf Views |
 | T02 | vollständiger T01-Zustand | Installation erneut | keine neue Datenbank/Job, kein unnötiger Write, `NO_CHANGE` |
 | T03 | DB existiert, ohne Schreibrecht | Preflight | `BLOCKED_SETUP`, keine Duplikat-DB |
 | T04 | Angebots-Kandidat zweimal von Suchindex und Händler | Dedupe | genau ein logischer Angebots-Key, ein Datensatz |
