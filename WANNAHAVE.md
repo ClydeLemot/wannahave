@@ -1,8 +1,45 @@
-# WANNAHAVE | Portabler Replikationsprompt v0.2
+# WANNAHAVE | Portabler Replikationsprompt v0.3
 
 > **Verwendung:** Den gesamten Inhalt dieses Dokuments an einen ausführenden KI-Agenten mit Zugriff auf das Zielsystem übergeben. Das Dokument ist der Installationsauftrag selbst. Es enthält weder persönliche Wunschdatensätze noch Quell-Workspace-IDs.
 >
 > **Evidenzgrenze:** Dies ist eine auf Notion-Quellmetadaten und dokumentierten Funktionsverträgen basierende **portable Kernrekonstruktion**, kein nachgewiesen funktionsidentischer Snapshot der laufenden v0.6-Automation. Die vollständige v0.6-Dateianlage und das Solver-Quellarchiv konnten nicht als Textinhalt extrahiert werden. Alle fehlenden exakten Implementierungsdetails sind Blocker, keine Einladung zur Erfindung.
+
+## 0A · ZWINGENDER AUSFÜHRUNGSVERTRAG (v0.3)
+
+**WICHTIG: Diese Datei ist ein INSTALLATIONSAUFTRAG, keine Gesprächsgrundlage, Rechercheaufgabe oder Einladung zu Architekturentwürfen.** Bei Übergabe durch einen Nutzer mit Aufforderung zur Installation ist das nächste Ziel eine tatsächliche, verifizierte Zustandsänderung im Zielsystem. Das Aufzählen von Schritten ohne Umsetzung ist ein FEHLSCHLAG.
+
+### Ausführungspflicht und Werkzeugbindung
+
+1. **Direkt starten.** Erster verfügbarer Werkzeugschritt: verfügbare Notion-/Datenbank-/Datei-/Automationswerkzeuge feststellen und zielgerichtet den vorhandenen WANNAHAVE-Bestand lesen. Vorher keine ausufernde Planung, kein Interview und keine neue Spezifikation schreiben.
+2. **Eine ausführbare Route wählen, keine Architektur erfinden.** Diese Version enthält einen konkreten **Notion-Adapter** mit exaktem Schema. Bei verbundenem, schreibfähigem Notion verwende ihn. Mögliche Werkzeugnamen: `mcp__Notion__search`, `mcp__Notion__fetch`, `mcp__Notion__notion_create_pages`, `mcp__Notion__notion_create_database`, `mcp__Notion__notion_update_data_source`, `mcp__Notion__notion_create_view`. Ermittle die tatsächlich verfügbaren Namen/Schemas; erfinde keine Aufrufparameter. Wende die YAML-Felder mit *exakt den angegebenen Namen, Typen und Auswahloptionen* an. Notion-IDs der Zielinstanz müssen aus echten Toolantworten stammen.
+3. **Fehlt Notion?** Ein anderes Backend ist in dieser Version **noch nicht vollständig spezifiziert**. Erfinde keinen eigenen PostgreSQL-/SQLite-/App-Stack und behaupte keine Gleichwertigkeit. Gib `BLOCKED_BACKEND` aus und nenne als einzigen konkreten nächsten Schritt: Notion verbinden **oder** die explizit spezifizierte alternative Backend-Implementierung bereitstellen. Den restlichen Installationsplan nicht als erledigt ausgeben.
+4. **Fehlende Pflichtinformation?** Frage nur EINEN tatsächlichen Blocker, z. B. welchen Ziel-Workspace du verwenden sollst, wenn kein eindeutiger autorisierter Zielort feststeht. Kann der Zielort eindeutig aus dem Nutzerauftrag und den Werkzeugdaten bestimmt werden, stelle keine weitere Frage.
+5. **Freigabe:** Ein ausdrücklicher Nutzerauftrag, WANNAHAVE in einer konkret benannten Zielumgebung zu installieren, erlaubt noch keinen Datenverlust. Prüfe das Delta. Bei nur additiven, reversiblen Objekten und ausdrücklicher Gesamtfreigabe direkt handeln und nicht vor jeder Tabelle erneut fragen. Falls die Gesamtfreigabe fehlt, zeige EINMAL die genaue Änderungsliste und frage EINMAL. Löschen, Überschreiben, riskante Migrationen und Käufe brauchen ihre eigene Freigabe.
+6. **Kein Selbstgespräch:** Keine Alternativarchitekturen, Branding-/UI-Debatten, Softwarevergleiche, weitere Generatoren oder unbestellten Refactorings. Fehlendes v0.6-Datei-Artefakt und fehlender optionaler Solver **blockieren die Kerninstallation nicht**; kennzeichne lediglich deren Funktionsgrenze. Nach jedem echten Werkzeugresultat den nächsten Installationsschritt durchführen.
+7. **Keine Phantom-Installation:** Wenn das System weder Notion-Werkzeuge noch Schreibrechte bereitstellt, melde in 3–5 Zeilen `BLOCKED_SETUP`/`BLOCKED_BACKEND`, das konkrete Hindernis und die erforderliche Nutzeraktion. Sätze wie „habe eingerichtet“ sind ohne nachgelesene Objekt-IDs und Zustände verboten.
+
+### Atomare Ausführungsfolge
+
+Diese Tabelle ist eine **auszuführende Befehlsfolge**, keine Checkliste für einen Bericht. Überspringe nur nach belegtem `NOOP`.
+
+| Schritt | Vorbedingung | Erforderliche Aktion | Beleg für PASS |
+| --- | --- | --- | --- |
+| X00 | Nutzer will Installation | Ziel-Tools und Zielort konkret feststellen; vorhandene WANNAHAVE-Seite/DBs lesen | tatsächliche Werkzeugantworten oder exakter Blocker |
+| X01 | Zielort + nötige Gesamtfreigabe | Einmalig die WANNAHAVE-Elternseite erstellen, falls nicht vorhanden | Seite durch Fetch/Readback identifiziert |
+| X02 | Elternseite existiert | DB 01–05 gemäß YAML in Reihenfolge erstellen oder fehlende Properties ergänzen, pro DB vorhandenen Zustand vorher prüfen | fünf echte DB-IDs, alle Schemafelder/Optionen nachgelesen |
+| X03 | fünf DBs vorhanden | drei Relationsfelder zu den ermittelten Ziel-Data-Sources herstellen | Relationsziele aus Ziel-API nachgelesen |
+| X04 | Schema & Relationen stimmen | exakt spezifizierte Ansichten erstellen; unklare View-Details nicht erfinden | vorhandene/erstellte Views gelesen, Lücken als VIEW_PARTIAL |
+| X05 | Datenkern vorhanden | Integritätsprüfung und idempotenten zweiten Schema-Lauf ausführen | zweiter Durchlauf erzeugt 0 DBs, 0 doppelte Felder |
+| X06 | Scheduler zugänglich und freigegeben | genau einen WANNAHAVE-Job mit dem G0–G6-Lauf einrichten/aktualisieren | Job-ID, Intervall und echter Testlauf überprüft |
+| X07 | vorherige Schritte geprüft | Ergebnis mit PASS/PARTIAL/BLOCKED pro Schritt und tatsächlichen Ziel-URLs ausgeben | keine unbelegten Erfolgsbehauptungen |
+
+**Arbeitsmodus:** Wiederhole `READ -> DIFF -> APPLY -> READBACK` für jedes Zielobjekt. Bei API-Fehlern nur die betroffene Operation prüfen/wiederholen. Arbeite auch bei optionalen fehlenden Modulen an allen übrigen freigegebenen Kernschritten weiter.
+
+**Stopbedingungen:** (a) tatsächliche fehlende Berechtigung; (b) unbekannter Zielort, den nur der Nutzer bestimmen kann; (c) fehlende explizite Gesamtfreigabe; (d) inkompatible Bestandsressource mit Migrationsrisiko; (e) keine definierte Backend-Implementierung. Alles andere ist zu erledigende Arbeit, kein Grund für eine bloße Empfehlung.
+
+**Nicht zulässiger Endzustand:** „Hier ist, was du jetzt tun solltest“, „ich würde fünf Datenbanken anlegen“, reine Architekturplanung oder `READY` ohne echten Readback. Wenn du technisch nichts mutieren kannst, melde den wahren Blocker, statt Arbeit zu simulieren.
+
+---
 
 ## 0 · Rolle, Zuständigkeit und Priorität
 
@@ -480,7 +517,7 @@ discovery_score:
 
 ## 2 · Installation als überprüfbare Zustandsmaschine
 
-Führe genau diese Schritte sequenziell aus. In jedem Schritt gilt: Vorbedingung prüfen → nur notwendige Delta-Änderung → Ergebnis mit dem tatsächlich verfügbaren Notion-Tool nachlesen → erst dann fortsetzen.
+Führe I0–I4 **wirklich mit Ziel-Werkzeugaufrufen** aus. Die verbindliche Werkzeug- und Ausführungsfolge X00–X07 aus Abschnitt 0A hat Vorrang vor rein beschreibenden Sätzen. In jedem Schritt gilt: Vorbedingung prüfen → notwendiges Delta anwenden → Ergebnis mit dem tatsächlich verfügbaren Notion-Tool nachlesen → fortsetzen. Bei fehlender Freigabe/Toolfähigkeit präzise stoppen, nicht unverrichtete Arbeit als Installation ausgeben.
 
 ### I0 · PRECHECK (nur lesen)
 
