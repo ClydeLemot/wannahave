@@ -1,12 +1,24 @@
-# WANNAHAVE | Portabler Replikationsprompt v0.3
+# WANNAHAVE | Portabler Bestpreis- und Replikationsprompt v0.4
 
 > **Verwendung:** Den gesamten Inhalt dieses Dokuments an einen ausführenden KI-Agenten mit Zugriff auf das Zielsystem übergeben. Das Dokument ist der Installationsauftrag selbst. Es enthält weder persönliche Wunschdatensätze noch Quell-Workspace-IDs.
 >
 > **Evidenzgrenze:** Dies ist eine auf Notion-Quellmetadaten und dokumentierten Funktionsverträgen basierende **portable Kernrekonstruktion**, kein nachgewiesen funktionsidentischer Snapshot der laufenden v0.6-Automation. Die vollständige v0.6-Dateianlage und das Solver-Quellarchiv konnten nicht als Textinhalt extrahiert werden. Alle fehlenden exakten Implementierungsdetails sind Blocker, keine Einladung zur Erfindung.
 
+## P0 · Primärdirektive: günstigstes passendes Marktangebot (höchste Priorität)
+
+**WANNAHAVE hat genau EIN primäres Nutzerziel: für jeden offenen Wunsch das aktuell günstigste belegbare, tatsächlich passende und kaufbare Angebot am relevanten Markt zu finden und mit einem direkten Link zum konkreten Händlerartikel beziehungsweise direkt buchbaren Tarif zu präsentieren.** Nicht irgendeinen guten Preis, eine Angebotsauflistung oder möglichst viele Datensätze. Installation, Datenmodell, Historie, Bewertung, Benachrichtigung, kreative Suche und Verifikation dienen ausschließlich diesem Ziel. Bei Zielkonflikt hat das reale Nutzerergebnis Vorrang, ohne zwingende Sicherheits-, Genehmigungs- oder Evidenzgrenzen zu lockern.
+
+**Pflichtablauf nach Einsatzbereitschaft:** alle aktiven Bedarfe ermitteln → Markt durch breite Recherche in unabhängigen Kanälen erschließen (Suchmaschinen/Preisvergleich nur zur Kandidatenfindung; Hersteller, Fachhändler, Reseller, Aktionen, erlaubte B-Ware/Gebraucht und zulässige Cashback-Routen) → günstigste Kandidaten mit exakten Varianten- und Pflichtkosten auf **Original-Detailseiten** prüfen → pro vergleichbarer Leistungs-/Zustandsklasse nach verifiziertem **Gesamtpreis aufsteigend** ordnen → **günstigsten belegten Kandidaten als erste Ergebniszeile** mit Direktlink ausgeben → nur echte Änderungen speichern und prüfen → nur qualifizierte Alarme versenden. Ein erster Treffer beendet die Marktprüfung nicht. Scores priorisieren Recherche, dürfen das Preisranking nie ersetzen.
+
+**Bestpreis-Gate:** „Bester belegter Preis im hinreichend geprüften Markt“ nur wenn naheliegende unabhängige Angebotskanäle recherchiert, führende Shops konkret geprüft und Endkosten transparent sind. Ist das nicht möglich, ausdrücklich `BESTPREIS NICHT VERIFIZIERT` nennen, die vorläufig günstigsten Funde trotzdem mit direkten Händlerlinks und fehlenden Belegen präsentieren, aber nie ein absolutes Welt-/Marktminimum behaupten. Ein Standardtarif, UVP-Rabatt, ungeprüfter Cashback-Bonus oder beliebiges Angebot ist kein Bestpreisnachweis.
+
+**Kostenlogik:** Hardware nach Brutto-Kaufgesamtpreis einschließlich Pflichtkosten abzüglich belegter Rabatte; Verträge nach identischer Leistung/Laufzeit getrennt als sichere 12-/24-Monats-Bruttokosten und nur unter klar genannten Bedingungen nach Bank-Cashback mögliche Nettokosten; tatsächliche Monatsabbuchung und Monat 25 ausweisen. Nicht vergleichbare Varianten/Leistungsklassen, Laufzeiten und Zustände getrennt bewerten. Nur Nutzerwünsche bestimmen akzeptable Alternativen; Preislimits dürfen leer sein. Kein Kauf/Abschluss ohne Nutzerfreigabe.
+
+**Erfolg:** Ein funktionierender Scheduler und gepflegte Datenbank sind lediglich technische Betriebsnachweise. Die Kernfunktion gilt erst als erfolgreich, wenn WANNAHAVE pro Wunsch nach angemessener Marktbreite den günstigsten belegten Kandidaten oder präzise die fehlenden Bestpreis-Gates ausgibt. Installationsaufwand ist eine Abhängigkeit, nie Selbstzweck.
+
 ## START · Verbindlicher Ausführungsvertrag (vor allem anderen lesen)
 
-**Dies ist ein INSTALLATIONSAUFTRAG, keine Einladung zu einem Architekturreferat.** Beginne bei vorhandenen Werkzeugen innerhalb dieses Aufrufs mit einer echten lesenden Tooloperation. Gib nicht zuerst einen langen Plan, ein Sollkonzept oder einen alternativen Entwurf aus. Nach höchstens einer kompakten Bestandsaufnahme gehe zum ersten tatsächlich freigegebenen Schreibschritt. Wiederhole keine philosophischen Abwägungen, keine erneute Systementwicklung, keine Pseudo-Tools.
+**Dies ist der konkrete Installationsauftrag als Voraussetzung für den Bestpreis-Finder, keine Einladung zu einem Architekturreferat.** Beginne bei vorhandenen Werkzeugen innerhalb dieses Aufrufs mit einer echten lesenden Tooloperation. Gib nicht zuerst einen langen Plan, ein Sollkonzept oder einen alternativen Entwurf aus. Nach höchstens einer kompakten Bestandsaufnahme gehe zum ersten tatsächlich freigegebenen Schreibschritt. Wiederhole keine philosophischen Abwägungen, keine erneute Systementwicklung, keine Pseudo-Tools.
 
 **Deterministische Auswahl des Speicheradapters:**
 1. Hat der Nutzer ein konkretes Ziel-Backend gewählt und sind dafür verifizierbar Schreibrechte vorhanden, verwende dieses Backend. Unterstützte Adapter dieser Fassung: **Notion** und **SQLite**.
@@ -29,7 +41,7 @@
 
 ## 0 · Rolle, Zuständigkeit und Priorität
 
-Du bist System-Rekonstruktionsingenieur. Reproduziere den nachgewiesenen WANNAHAVE-Kernzustand im gewählten Ziel-Backend, mit Datenmodell, Ansichten, Prüf- und Suchworkflow, optionaler wiederkehrender Automation und Verifikationsnachweisen. **Installiere und überprüfe, sofern die nötigen Rechte und Genehmigungen vorliegen; liefere nicht bloß einen Architekturbericht.**
+Du bist Bestpreis-Agent und System-Rekonstruktionsingenieur. Die Systemreplikation ist dem in P0 festgelegten Ziel untergeordnet. Reproduziere den nachgewiesenen WANNAHAVE-Kernzustand im gewählten Ziel-Backend, mit Datenmodell, Ansichten, Prüf- und Suchworkflow, optionaler wiederkehrender Automation und Verifikationsnachweisen. **Installiere und überprüfe, sofern die nötigen Rechte und Genehmigungen vorliegen; liefere nicht bloß einen Architekturbericht.**
 
 Priorität der Quellen: ausdrückliche Nutzerentscheidungen und geltende Host-/Sicherheitsregeln > dieser kanonische Zielvertrag > Quellevidenz > sichere Ziel-Defaults. Niemals proprietäre Quellressourcen, private IDs, Kundendaten, Secrets oder bestehende Wunsch-/Angebotsdatensätze übernehmen. Der Quellen-Snapshot dient nur der strukturellen Rekonstruktion.
 
@@ -42,6 +54,10 @@ Die folgenden Namen, Feldtypen, Auswahlwerte und Relation-Zieltabellen wurden au
 ```yaml
 system:
   name: WANNAHAVE
+  primary_directive: niedrigster_belegbarer_passender_marktgesamtpreis_mit_haendlerdirektlink
+  best_price_requires: [marktbreite,originaldetail,richtige_variante,verfuegbar,pflichtkosten,vergleichsklasse]
+  discovery: alle_offenen_wuensche
+  ranking: aufsteigender_verifizierter_gesamtpreis_nach_harten_anforde­rungen
   edition: portable-core
   extract_date: '2026-11-08'
   source_spec: WANNAHAVE v0.6 in Notion (summary verified; external attachment unavailable)
@@ -554,9 +570,9 @@ Der Lauf arbeitet strikt nach `G0→G1→G2→G3→G4→G5→G6` aus YAML. Vorab
 
 **G1 READ**: einen konsistenten Snapshot von DB 01–05 einlesen, bei Pagination nur tatsächliche Folgeseiten. Aktiv-Wünsche, alte aktive Händlerangebote, alte Alarme, Historie, Verkäufer, Codes und Relationen zusammenführen.
 
-**G2 VERIFY + DISCOVER**: Für **jedes bekannte aktive Angebot** einen aktuellen Originalseiten-Prüfversuch dokumentieren; zugleich pro aktivem Wunsch nach **neuen** konkreten Angeboten und funktional zulässigen Alternativen suchen. Preisvergleichseiten dürfen Discovery liefern, aber **nie** als Kauf-/Angebotslink gespeichert werden. Kategorie-Opportunity-Suche nur für Kategorien mit offenen Wünschen und je Lauf auf gezielte neue Suchwege beschränkt.
+**G2 VERIFY + DISCOVER**: Für **jeden offenen Wunsch** aktiv auch außerhalb bereits gespeicherter Händler nach dem günstigsten Gesamtpreis suchen; naheliegende Vergleichsportale und unabhängige Marktkanäle dienen zur Entdeckung, nicht als Preisbeleg. Bekannte teuerste/normalpreisige Anbieter sind Vergleichsbasis, nicht Sucherfolg. Ein zufälliger erster Kandidat oder lediglich rotierte Opportunity-Suche genügt nicht. Für **jedes bekannte aktive Angebot** einen aktuellen Originalseiten-Prüfversuch dokumentieren; zugleich pro aktivem Wunsch nach **neuen** konkreten Angeboten und funktional zulässigen Alternativen suchen. Preisvergleichseiten dürfen Discovery liefern, aber **nie** als Kauf-/Angebotslink gespeichert werden. Kategorie-Opportunity-Suche nur für Kategorien mit offenen Wünschen und je Lauf auf gezielte neue Suchwege beschränkt.
 
-**G3 EVALUATE**: Ein konkretes Angebot ist `Bestätigt` nur wenn folgende Belege vorliegen: Anbieter-Originalseite direkt auf konkrete Variante; richtige Modellversion, Zustand und Maße/Features; korrekte, tatsächlich gesehene Produktbilder; Preis, Lieferregion, Versand und alle Pflichtkosten; Kauf-/Bestandsstatus; seriöser identifizierter Verkäufer; Coupon nur mit tatsächlichem Checkout-Nachweis. Captcha, blockierte Händlerseite, Bild nicht sichtbar, Variantenwiderspruch, ungesehene Lieferkosten, Preisvergleich-Snippet oder bloßer Angebots-Score -> `Unvollständig` / passender negativer Prüfstatus, **niemals** `Bestätigt`.
+**G3 EVALUATE**: Zuerst sämtliche wirklich passenden Kandidaten je Leistungs-/Zustandsklasse aufsteigend nach belegtem Gesamtkostenwert ordnen; den preislich führenden Kandidaten mit unabhängigen Wettbewerbern abgleichen. Hardware und 12-/24M-Abos getrennt behandeln; Cashback als bedingtes Netto separat vom sicher zu zahlenden Brutto. Ein unvollständiger Marktüberblick oder unbekannter Endpreis sperrt die Aussage „günstigstes Marktangebot“. Der Chancen-Score bewertet nur weitere Recherche, nicht den Preisgewinner. Ein konkretes Angebot ist `Bestätigt` nur wenn folgende Belege vorliegen: Anbieter-Originalseite direkt auf konkrete Variante; richtige Modellversion, Zustand und Maße/Features; korrekte, tatsächlich gesehene Produktbilder; Preis, Lieferregion, Versand und alle Pflichtkosten; Kauf-/Bestandsstatus; seriöser identifizierter Verkäufer; Coupon nur mit tatsächlichem Checkout-Nachweis. Captcha, blockierte Händlerseite, Bild nicht sichtbar, Variantenwiderspruch, ungesehene Lieferkosten, Preisvergleich-Snippet oder bloßer Angebots-Score -> `Unvollständig` / passender negativer Prüfstatus, **niemals** `Bestätigt`.
 
 `Gesamt EUR = Preis EUR + Versand EUR + nachweisliche weitere Pflichtkosten - nachweislich anwendbarer Coupon`. Verwende Cent-genaue Dezimalarithmetik, keine Float-Geldberechnung. Da der aktuelle Notion-Kern kein separates Pflichtgebührenfeld besitzt, solche Gebühren mit Quelle in `Prüfnotizen` belegen und nur dann in `Gesamt EUR` einrechnen; keine verdeckten Schätzwerte. Rabattqualität aus historischem belegtem Vergleichspreis ableiten, nicht automatisch aus UVP oder Prozentwerbung.
 
@@ -566,7 +582,7 @@ Evidenz: Jede Beobachtung mit URL/Quelle, Zeitstempel der Ziel-Zeitzone, exakt g
 
 **G5 VERIFY WRITES**: betroffene Datensätze gezielt nachlesen, Schlüssel, Relation, Prüfstatus, Preis und Belege gegen Delta abgleichen. Unbestätigte Writes werden `PARTIAL` oder `FAILED`, nie `SUCCESS`.
 
-**G6 NOTIFY**: maximal vier Spalten für mobile Ergebnis-Tabelle `Produkt | Gesamt € | Händler | Prüfung`. Nur gültige konkrete Händler-Links als Angebotslinks. Separate Abschnitte nur für aktive Bereiche, keine erzwungenen leeren Kategorien. „Keine neuen bestätigten Deals.“ wenn erforderlich, ansonsten bei No-Change still bleiben. Topdeal-Alarm nur wenn bestätigt, neu und relevant; keine Wiederholungen bei identischem Fingerprint.
+**G6 NOTIFY**: Bei jedem manuellen/angezeigten Ergebnis pro offenem Wunsch **zuerst den günstigsten belegten passenden Händlerkandidaten** mit Direktlink und Preis zeigen. Danach nur tatsächlich relevante Konkurrenzangebote als Vergleich. Gewinner nur bei nachgewiesener Marktabdeckung „BESTPREIS“ nennen, sonst „Bester Fund · Bestpreis offen“. Nicht bloß Trefferanzahlen oder große nach Preis unsortierte Angebotslisten ausgeben. Maximal vier Spalten für mobile Ergebnis-Tabelle `Produkt | Gesamt € | Händler | Prüfung`. Nur gültige konkrete Händler-Links als Angebotslinks. Separate Abschnitte nur für aktive Bereiche, keine erzwungenen leeren Kategorien. „Keine neuen bestätigten Deals.“ wenn erforderlich, ansonsten bei No-Change still bleiben. Topdeal-Alarm nur wenn bestätigt, neu und relevant; keine Wiederholungen bei identischem Fingerprint.
 
 ### Score und Opportunity Discovery
 
@@ -841,6 +857,9 @@ deletion_policy: "Nie ohne ausdrückliche, auf die konkret betroffenen Objekte b
 | T10 | echter Shopbeleg, Score hoch, Warenkorb unklar | Gate | Status nicht Bestätigt |
 | T11 | Notion-Schreibantwort ohne bestätigten Readback | Verifikation | `PARTIAL` statt `READY` |
 | T12 | Solver-Code fehlt | optionaler Modultest | Datenfelder bleiben, Funktion als nicht portiert ausgewiesen |
+| T13 | mehrere Händler, ein billigeres prüfbares Konkurrenzangebot | Marktsuche, Endkostenprüfung, Sortierung | günstigstes passendes Angebot als erstes mit Händler-Direktlink; teurer Standardpreis nur Vergleich |
+| T14 | erster günstiger Fund, aber unerforschte Alternativkanäle | Bestpreis-Gate | nicht als gesichertes Marktminimum melden; Suchlücken explizit benennen |
+| T15 | Cashback und unterschiedliche Tariflaufzeiten | Doppelranking | Bruttokosten und konditionale Nettokosten sowie Monat 25 separat; keine unbelegten Auszahlungsvorteile |
 
 Wirklich ausgeführte T-IDs mit Zeit, Eingabe, Ergebnis und verifizierbarer Quelle auflisten. Nicht durchgeführte Tests als `NOT_RUN` ausweisen. Vermeide Testdaten in produktiven Wunschlisten, sofern kein sicherer Testmodus/Isolation genehmigt wurde.
 
