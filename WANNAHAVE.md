@@ -57,10 +57,10 @@ system:
   primary_directive: niedrigster_belegbarer_passender_marktgesamtpreis_mit_haendlerdirektlink
   best_price_requires: [marktbreite,originaldetail,richtige_variante,verfuegbar,pflichtkosten,vergleichsklasse]
   discovery: alle_offenen_wuensche
-  ranking: aufsteigender_verifizierter_gesamtpreis_nach_harten_anforde­rungen
+  ranking: aufsteigender_verifizierter_gesamtpreis_nach_harten_anforderungen
   edition: portable-core
   extract_date: '2026-11-08'
-  source_spec: WANNAHAVE v0.6 in Notion (summary verified; external attachment unavailable)
+  source_spec: WANNAHAVE v0.6 in Notion (historical extraction) + P0 Bestpreis-Primärdirektive 09.11.2026
   install_target: auto
   supported_backends: [Notion, SQLite]
   default_backend: Notion_if_writable_else_SQLite_if_persistent
